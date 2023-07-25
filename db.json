@@ -1,0 +1,11 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "description": "plug",
+      "manufacturer": "ocelot",
+      "buy": "60",
+      "sell": "100"
+    }
+  ]
+}
