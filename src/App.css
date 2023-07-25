@@ -8,7 +8,7 @@
 }
 
 .btn {
-  margin: p2x;
+  margin: 2px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
