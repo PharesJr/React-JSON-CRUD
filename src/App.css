@@ -10,6 +10,10 @@
 .btn {
   margin: 2px;
 }
+.divbtn {
+  padding-bottom: 0.4rem;
+  float: left;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

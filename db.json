@@ -1,11 +1,36 @@
 {
   "employees": [
     {
-      "id": 1,
-      "description": "plug",
-      "manufacturer": "ocelot",
-      "buy": "60",
-      "sell": "100"
+      "description": "SPROCKET",
+      "manufacturer": "BAJAJ",
+      "buy": "2100",
+      "sell": "3200",
+      "active": true,
+      "id": 3
+    },
+    {
+      "description": "SIDE-MIRROR",
+      "manufacturer": "PRO-HERO",
+      "buy": "180",
+      "sell": "300",
+      "active": true,
+      "id": 4
+    },
+    {
+      "description": "SIDE-MIRROR",
+      "manufacturer": "PRO-HERO",
+      "buy": "180",
+      "sell": "330",
+      "active": true,
+      "id": 5
+    },
+    {
+      "description": "SUPER-GLUE SMALL",
+      "manufacturer": "SPARKO",
+      "buy": "15",
+      "sell": "35",
+      "active": true,
+      "id": 6
     }
   ]
 }

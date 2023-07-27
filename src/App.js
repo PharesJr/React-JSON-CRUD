@@ -9,7 +9,7 @@ import EmpDetails from "./Components/EmpDetails";
 function App() {
   return (
     <div className="App">
-      <h1>React JS CRUD Operations</h1>
+      <h1>PHAMWA AUTOSPARES</h1>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<EmpListing />}></Route>
