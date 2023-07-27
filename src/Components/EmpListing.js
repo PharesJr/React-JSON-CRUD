@@ -49,7 +49,7 @@ const EmpListing = () => {
     <div className="container">
       <div className="card">
         <div className="card-title">
-          <h2>ITEMS Listing</h2>
+          <h2>Cars Listing</h2>
         </div>
         <div className="card-body">
           <div className="divbtn">
