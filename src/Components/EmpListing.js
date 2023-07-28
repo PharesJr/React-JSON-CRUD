@@ -4,7 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import EmpCreate from "./EmpCreate";
 
 const EmpListing = () => {
+  //data State
   const [empdata, empdataChanged] = useState(null);
+  // search state
+  const [searchQuery, setSearchQuery] = useState("");
+  // paging state
+  const [currentPage, setCurrentPage] = useState(1);
+  // navigation state
   const navigate = useNavigate();
 
   const loadDetails = (id) => {
@@ -45,69 +51,139 @@ const EmpListing = () => {
       });
   }, []);
 
+  // Filter data based on the search query
+  useEffect(() => {
+    if (empdata) {
+      if (searchQuery === "") {
+        // If searchQuery is empty, restore the original data
+        fetch("http://localhost:8000/employees")
+          .then((res) => res.json())
+          .then((resp) => {
+            empdataChanged(resp);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      } else {
+        // Filter the data based on the search query
+        const filteredData = empdata.filter(
+          (item) =>
+            item.description
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            item.manufacturer.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        empdataChanged(filteredData);
+      }
+    }
+  }, [searchQuery]);
+
+  // Paginate the data based on the currentPage state
+  const itemsPerPage = 20;
+  const lastIndex = currentPage * itemsPerPage;
+  const firstIndex = lastIndex - itemsPerPage;
+  // Check if empdata is null before accessing its properties
+  const currentItems = empdata && empdata.slice(firstIndex, lastIndex);
+
   return (
     <div className="container">
       <div className="card">
         <div className="card-title">
-          <h2>Cars Listing</h2>
+          <h2>ITEMS Listing</h2>
         </div>
-        <div className="card-body">
-          <div className="divbtn">
-            <Link to="employee/create" className="btn btn-success">
-              Add New (+)
-            </Link>
-          </div>
-          <table className="table table-bordered">
-            <thead className="--bs-gray-800 text-white">
-              <tr>
-                <td>ID</td>
-                <td>Description</td>
-                <td>Manufacturer</td>
-                <td>Buy</td>
-                <td>Sell</td>
-                <td>Actions</td>
-              </tr>
-            </thead>
-            <tbody>
-              {empdata &&
-                empdata.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.description}</td>
-                    <td>{item.manufacturer}</td>
-                    <td>{item.buy}</td>
-                    <td>{item.sell}</td>
-                    <td>
-                      <a
-                        onClick={() => {
-                          loadEdit(item.id);
-                        }}
-                        className="btn btn-success"
-                      >
-                        Edit
-                      </a>
-                      <a
-                        onClick={() => {
-                          removeItem(item.id);
-                        }}
-                        className="btn btn-danger"
-                      >
-                        Delete
-                      </a>
-                      <a
-                        onClick={() => {
-                          loadDetails(item.id);
-                        }}
-                        className="btn btn-success"
-                      >
-                        Details
-                      </a>
-                    </td>
+        {empdata !== null ? (
+          <div className="card-body">
+            <div className="divbtn">
+              <Link to="employee/create" className="btn btn-success">
+                Add New (+)
+              </Link>
+            </div>
+            <div>
+              <label className="se">Search:</label>
+              <input
+                className="searchform"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                type="search"
+              />
+            </div>
+
+            {empdata.length > 0 ? (
+              <table className="table table-bordered">
+                <thead className="--bs-gray-800 text-white">
+                  <tr>
+                    <td>ID</td>
+                    <td>Description</td>
+                    <td>Manufacturer</td>
+                    <td>Buy</td>
+                    <td>Sell</td>
+                    <td>Actions</td>
                   </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody>
+                  {currentItems &&
+                    currentItems.map((item) => (
+                      <tr key={item.id}>
+                        <td>{item.id}</td>
+                        <td>{item.description}</td>
+                        <td>{item.manufacturer}</td>
+                        <td>{item.buy}</td>
+                        <td>{item.sell}</td>
+                        <td>
+                          <a
+                            onClick={() => {
+                              loadEdit(item.id);
+                            }}
+                            className="btn btn-success"
+                          >
+                            Edit
+                          </a>
+                          <a
+                            onClick={() => {
+                              removeItem(item.id);
+                            }}
+                            className="btn btn-danger"
+                          >
+                            Delete
+                          </a>
+                          <a
+                            onClick={() => {
+                              loadDetails(item.id);
+                            }}
+                            className="btn btn-success"
+                          >
+                            Details
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No data available.</p>
+            )}
+
+            {/* Add pagination buttons */}
+            <div className="pagination">
+              <button
+                className="btn btn-danger"
+                onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-success"
+                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+                disabled={currentItems.length < itemsPerPage}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   );

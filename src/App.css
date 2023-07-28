@@ -15,6 +15,21 @@
   float: left;
 }
 
+.searchform{
+  padding: 0.1rem;
+  margin: 0.2rem;
+  padding-left: 1rem;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.se {
+  font-weight: 800;
+  color: black;
+}
+
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
